@@ -1,4 +1,5 @@
 import {createServer, IncomingMessage, ServerResponse} from "http";
+import { LoginHandler } from "./LoginHandler";
 import {Utils} from "./Utils"
 export class Server {
     public createServer(){
@@ -8,7 +9,7 @@ export class Server {
 
                 switch (basePath) {
                     case "login":
-                        
+                            new LoginHandler(req, res).handleRequest()
                         break
 
                     case "data":
