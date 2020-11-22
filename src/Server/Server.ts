@@ -3,13 +3,13 @@ import { LoginHandler } from "./LoginHandler";
 import {Utils} from "./Utils"
 export class Server {
     public createServer(){
-        createServer((req: IncomingMessage, res: ServerResponse) => {
+        createServer(async (req: IncomingMessage, res: ServerResponse) => {
                 console.log("got request from: " + req.url)
                 const basePath = Utils.getUrlBasePath(req.url)
 
                 switch (basePath) {
                     case "login":
-                            new LoginHandler(req, res).handleRequest()
+                            await new LoginHandler(req, res).handleRequest()
                         break
 
                     case "data":
