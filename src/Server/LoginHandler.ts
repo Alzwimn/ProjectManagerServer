@@ -1,21 +1,34 @@
 import { IncomingMessage, ServerResponse } from "http";
-export class LoginHandler {
+import { Account, Handler, TokenGenerator } from "./Model";
+export class LoginHandler implements Handler {
 
     private req: IncomingMessage
     private res: ServerResponse
+    private tokenGenerator: TokenGenerator
 
-    public constructor(req: IncomingMessage, res: ServerResponse){
+
+    public constructor(req: IncomingMessage, res: ServerResponse, tokenGenerator: TokenGenerator){
         this.req = req
         this.res = res
+        this.tokenGenerator = tokenGenerator
     }
 
     public async handleRequest(): Promise<void> {
-        console.log("before body")
-        const body = await this.getRequestBody()
-        console.log("after body")
+
+        try {
+            const body = await this.getRequestBody()
+            const sessionToken = await this.tokenGenerator.generateToken(body)
+            if(!sessionToken){
+                this.res.write("Wrong credentials")
+            } else {
+                this.res.write("Valid Credentials")
+            }
+        } catch (error) {
+            this.res.write("error: "+ error.message)
+        }
     }
 
-    private async getRequestBody(): Promise<any> {
+    private async getRequestBody(): Promise<Account> {
         return new Promise((resolve, reject) => {
             let body = ""
             this.req.on("data", (data: string) => {
