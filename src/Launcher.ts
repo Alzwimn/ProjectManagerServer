@@ -3,7 +3,6 @@ import {Server} from "./Server/Server"
 class Launcher {
     
     //instace variables
-    // private name: string
     private server: Server
 
     constructor(){
