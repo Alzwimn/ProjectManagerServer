@@ -1,6 +1,8 @@
 import {createServer, IncomingMessage, ServerResponse} from "http";
 import { Authorizer } from "../Authorization/Authorizer";
+import { UsersDBAccess } from "../User/UsersDBAccess";
 import { LoginHandler } from "./LoginHandler";
+import { UsersHandler } from "./UserHandler";
 import {Utils} from "./Utils"
 export class Server {
 
@@ -16,8 +18,8 @@ export class Server {
                             await new LoginHandler(req, res, this.authorizer).handleRequest()
                         break
 
-                    case "data":
-                        
+                    case "users":
+                            await new UsersHandler(req, res).handleRequest()
                         break
                 
                     default:

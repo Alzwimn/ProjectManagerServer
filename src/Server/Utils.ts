@@ -1,4 +1,4 @@
-import {parse} from "url"
+import {parse, UrlWithParsedQuery} from "url"
 
 export class Utils {
 
@@ -7,5 +7,10 @@ export class Utils {
 
         const parsedUrl = parse(url);
         return parsedUrl.pathname!.split("/")[1]
+    }
+
+    public static getUrlParameters(url: string | undefined): UrlWithParsedQuery | undefined {
+        if(!url) return undefined
+        return parse(url, true)
     }
 }
