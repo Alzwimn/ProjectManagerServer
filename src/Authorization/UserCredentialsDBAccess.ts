@@ -1,6 +1,5 @@
 import { UserCredentials } from "../Shared/Model";
 import Nedb from "nedb";
-import { rejects } from "assert";
 
 export class UserCredentialsDBAccess {
 
@@ -21,6 +20,21 @@ export class UserCredentialsDBAccess {
     }
 
     public async getUserCredential(username: string, password: string): Promise<UserCredentials | undefined>{
-        throw ""
+        return new Promise((resolve, reject) => {
+            this.nedb.find({username:username, password: password}, 
+                (err: Error, docs: UserCredentials[]) => {
+                if(err){
+                    reject(err)
+                    return
+                } 
+
+                if(docs.length === 0) {
+                    resolve(undefined)
+                    return
+                } 
+
+                resolve(docs[0])
+            })
+        })
     }
 }

@@ -20,9 +20,9 @@ export class LoginHandler implements Handler {
             const sessionToken = await this.tokenGenerator.generateToken(body)
             if(!sessionToken){
                 this.res.write("Wrong credentials")
-            } else {
-                this.res.write("Valid Credentials")
-            }
+                return
+            } 
+            this.res.write("Valid Credentials")
         } catch (error) {
             this.res.write("error: "+ error.message)
         }
