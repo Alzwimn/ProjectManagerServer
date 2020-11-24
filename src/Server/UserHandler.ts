@@ -27,6 +27,20 @@ export class UsersHandler extends BaseRequestHandler {
 
     private async handleGet(): Promise<any> {
         const parsedUrl = Utils.getUrlParameters(this.req.url)
+        if(!parsedUrl) {
+            this.respondBadRequest("User id not present in request")
+            return
+        }
+    
+        const userId = parsedUrl.query.id
+        if(userId){
+            const user = await this.usersDBAccess.getUserById(userId as string)
+            if(user){
+                this.respondJsonObjects(HTTP_CODES.OK, user)
+                return
+            }
+            this.handleNotFound()
+        }
         console.log("queryId: " + parsedUrl?.query.id);
     }
 
