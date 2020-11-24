@@ -1,16 +1,19 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { HTTP_CODES, HTTP_METHODS } from "../Shared/Model";
+import { AccessRight, HTTP_CODES, HTTP_METHODS } from "../Shared/Model";
 import { UsersDBAccess } from "../User/UsersDBAccess";
 import { BaseRequestHandler } from "./BaseRequestHandler";
+import { TokenValidator } from "./Model";
 import { Utils } from "./Utils";
 
 
 export class UsersHandler extends BaseRequestHandler {
 
     private usersDBAccess: UsersDBAccess = new UsersDBAccess()
+    private tokenValidator: TokenValidator
 
-    public constructor(req: IncomingMessage, res: ServerResponse){
+    public constructor(req: IncomingMessage, res: ServerResponse, tokenValidator: TokenValidator){
         super(req, res)
+        this.tokenValidator = tokenValidator
     }
     
     async handleRequest(): Promise<void> {
@@ -41,7 +44,13 @@ export class UsersHandler extends BaseRequestHandler {
             }
             this.handleNotFound()
         }
-        console.log("queryId: " + parsedUrl?.query.id);
     }
-
+    
+    public async operationAuthorized(operation: AccessRight): Promise<boolean> {
+        const token = this.req.headers.authorization
+        if(!token) return false;
+        const tokenRights = await this.tokenValidator.validateToken(token)
+        if(!tokenRights.accessRight.includes(operation)) return false
+        return true
+    }
 }
