@@ -57,16 +57,18 @@ export class UsersHandler extends BaseRequestHandler {
             this.respondBadRequest("User id not present in request")
             return
         }
-
-        const userId = parsedUrl.query.id
-        if(userId){
-            const user = await this.usersDBAccess.getUserById(userId as string)
-            if(user){
-                this.respondJsonObjects(HTTP_CODES.OK, user)
-                return
-            }
-            this.handleNotFound()
+        let user: User | undefined
+        if(parsedUrl.query.id){
+            user = await this.usersDBAccess.getUserById(parsedUrl.query.id as string)
         }
+        if(parsedUrl.query.name) {
+            user = await this.usersDBAccess.getUserByName(parsedUrl.query.name as string)
+        }
+        if(user){
+            this.respondJsonObjects(HTTP_CODES.OK, user)
+            return
+        }
+        this.handleNotFound()
     }
     
     public async operationAuthorized(operation: AccessRight): Promise<boolean> {

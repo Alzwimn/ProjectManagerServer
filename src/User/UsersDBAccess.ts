@@ -41,6 +41,19 @@ export class UsersDBAccess {
         })
     }
 
+    public async getUserByName(name: string): Promise<User | undefined> {
+        const regEx = new RegExp(name)
+        return new Promise((resolve, reject) => {
+            this.nedb.find({name: regEx}, (error: Error, docs: any)=> {
+                if(error) {
+                    reject(error)
+                    return
+                }
+                resolve(docs)
+            })
+        })
+    }
+
     private generateUserId(): string {
         return Math.random().toString(36).slice(2)
     }
