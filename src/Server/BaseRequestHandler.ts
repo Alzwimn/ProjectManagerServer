@@ -29,6 +29,11 @@ export abstract class BaseRequestHandler {
         this.res.write(message)
     }
 
+    protected respondText(htppCode: HTTP_CODES, message: string) {
+        this.res.statusCode = htppCode
+        this.res.write(message)
+    }
+
     protected async handleNotFound(): Promise<any>{
         this.res.statusCode = HTTP_CODES.NOT_FOUND
         this.res.write("Not Found")

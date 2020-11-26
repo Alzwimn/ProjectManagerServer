@@ -11,6 +11,9 @@ export class UsersDBAccess {
     }
 
     public async putUser(user: User): Promise<void> {
+        if(!user.id) {
+            user.id = this.generateUserId()
+        }
         return new Promise((resolve, reject) => {
             this.nedb.insert(user, (err) => {
                 if(err){
@@ -36,5 +39,9 @@ export class UsersDBAccess {
                 resolve(docs[0])
             })
         })
+    }
+
+    private generateUserId(): string {
+        return Math.random().toString(36).slice(2)
     }
 }
