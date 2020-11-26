@@ -19,7 +19,7 @@ export class UsersHandler extends BaseRequestHandler {
     async handleRequest(): Promise<void> {
         switch (this.req.method) {
             case HTTP_METHODS.GET:
-                await this.handleGet()
+                await this.handleGet();
                 break;
         
             default:
@@ -29,12 +29,18 @@ export class UsersHandler extends BaseRequestHandler {
     }
 
     private async handleGet(): Promise<any> {
+        const operationAuthorized = await this.operationAuthorized(AccessRight.READ)
+        if(!operationAuthorized) {
+            this.respondUnauthorized("Missing or invalid authentication")
+            return
+        }
+
         const parsedUrl = Utils.getUrlParameters(this.req.url)
         if(!parsedUrl) {
             this.respondBadRequest("User id not present in request")
             return
         }
-    
+
         const userId = parsedUrl.query.id
         if(userId){
             const user = await this.usersDBAccess.getUserById(userId as string)

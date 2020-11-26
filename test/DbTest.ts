@@ -10,15 +10,15 @@ class DbTest {
 }
 
 // new DbTest().dbAccess.putUserCredential({
-//     username: "user1",
-//     password: "password1",
+//     username: "sirleno",
+//     password: "123456",
 //     accessRights: [1,2,3]
 // })
 
 new DbTest().userDbAccess.putUser({
-    age:30,
-    email: "teste@teste.com",
-    id: "isajd1",
-    name: "John Abc",
+    age:24,
+    email: "sirleno@gmail.com",
+    id: "fod3",
+    name: "Sirleno Junior",
     workingPosition: 3
 })

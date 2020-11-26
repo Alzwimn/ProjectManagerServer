@@ -24,6 +24,11 @@ export abstract class BaseRequestHandler {
         this.res.write(message)
     }
 
+    protected respondUnauthorized(message: string) {
+        this.res.statusCode = HTTP_CODES.UNAUTHORIZED
+        this.res.write(message)
+    }
+
     protected async handleNotFound(): Promise<any>{
         this.res.statusCode = HTTP_CODES.NOT_FOUND
         this.res.write("Not Found")

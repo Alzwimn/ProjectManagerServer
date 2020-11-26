@@ -12,7 +12,7 @@ export class SessionTokenDBAccess {
 
     public async storeSessionToken(token: SessionToken): Promise<void> {
         return new Promise ((resolve, reject) => {
-            this.nedb.insert(token, (err) => {
+            this.nedb.insert(token, (err: Error | null) => {
                 if(err){
                     reject(err)
                     return
@@ -23,18 +23,18 @@ export class SessionTokenDBAccess {
     }
 
     public async getToken(tokenId: string): Promise<SessionToken | undefined> {
-        return new Promise((resolve, reject) => {
-            this.nedb.find({tokenId: tokenId}, (error: Error, docs: any[]) => {
-                if(error) {
-                    reject(error)
+        return new Promise ((resolve, reject) => {
+            this.nedb.find({tokenId:tokenId}, (err: Error, docs: any[]) => {
+                if(err){
+                    reject(err)
                     return
                 }
                 if(docs.length === 0) {
                     resolve(undefined)
                     return
                 }
-                return docs[0]
-            } )
+                resolve(docs[0])
+            })
         })
     }
 }
