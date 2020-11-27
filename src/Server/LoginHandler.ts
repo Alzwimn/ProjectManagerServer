@@ -16,7 +16,10 @@ export class LoginHandler extends BaseRequestHandler  {
             case HTTP_METHODS.POST:
                 await this.handlePost()
                 break
-        
+            
+            case HTTP_METHODS.OPTIONS:
+                this.res.writeHead(HTTP_CODES.OK)
+                break
             default:
                 this.handleNotFound()
                 break

@@ -11,6 +11,7 @@ export class Server {
     public createServer(){
         createServer(async (req: IncomingMessage, res: ServerResponse) => {
                 console.log("got request from: " + req.url)
+                this.addCorsHeader(res)
                 const basePath = Utils.getUrlBasePath(req.url)
 
                 switch (basePath) {
@@ -31,5 +32,10 @@ export class Server {
         ).listen(8080)
 
         console.log("Server started")
+    }
+
+    private addCorsHeader(res: ServerResponse) {
+        res.setHeader("access-control-allow-origin", "*")
+        res.setHeader("access-control-allow-headers", "*")
     }
 }
