@@ -15,10 +15,10 @@ class DbTest {
 //     accessRights: [0,1,2,3]
 // })
 
-// new DbTest().userDbAccess.putUser({
-//     age:24,
-//     email: "sirleno@gmail.com",
-//     id: "fod3",
-//     name: "Sirleno Junior",
-//     workingPosition: 3
-// })
+new DbTest().userDbAccess.putUser({
+    age:24,
+    email: "sirleno@gmail.com",
+    id: "fod3",
+    name: "Sirleno Junior",
+    workingPosition: 3
+})

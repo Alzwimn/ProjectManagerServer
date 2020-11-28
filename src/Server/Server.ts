@@ -37,5 +37,6 @@ export class Server {
     private addCorsHeader(res: ServerResponse) {
         res.setHeader("access-control-allow-origin", "*")
         res.setHeader("access-control-allow-headers", "*")
+        res.setHeader("access-control-allow-methods", "*")
     }
 }

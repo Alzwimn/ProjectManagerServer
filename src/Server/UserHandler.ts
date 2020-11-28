@@ -21,6 +21,9 @@ export class UsersHandler extends BaseRequestHandler {
             case HTTP_METHODS.GET:
                 await this.handleGet()
                 break
+            case HTTP_METHODS.OPTIONS:
+                this.res.writeHead(HTTP_CODES.OK)
+                break    
             case HTTP_METHODS.PUT:
                 await this.handlePut()
                 break
