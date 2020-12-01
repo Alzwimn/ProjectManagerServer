@@ -12,6 +12,14 @@ export abstract class BaseRequestHandler {
         this.res = res
     }
 
+    public setRequest (req: IncomingMessage) {
+      this.req = req
+    }
+
+    public setResponse (res: ServerResponse) {
+      this.res = res
+    }
+
     abstract handleRequest(): Promise<void> 
 
     protected respondJsonObjects(code: HTTP_CODES, object: any) {

@@ -8,6 +8,8 @@ import {Utils} from "./Utils"
 export class Server {
 
     private authorizer: Authorizer = new Authorizer()
+    private loginHandler: LoginHandler = new LoginHandler(this.authorizer)
+    private userHandler: UsersHandler = new UsersHandler(this.authorizer)
 
     public createServer(){
         createServer(async (req: IncomingMessage, res: ServerResponse) => {
@@ -20,11 +22,15 @@ export class Server {
                             res.write(Monitor.printInstances())
                         break
                     case "login":
-                            await new LoginHandler(req, res, this.authorizer).handleRequest()
+                            this.loginHandler.setRequest(req)
+                            this.loginHandler.setResponse(res)
+                            await this.loginHandler.handleRequest()
                         break
 
                     case "users":
-                            await new UsersHandler(req, res, this.authorizer).handleRequest()
+                            this.userHandler.setRequest(req)
+                            this.userHandler.setResponse(res)
+                            await this.userHandler.handleRequest()
                         break
                 
                     default:
