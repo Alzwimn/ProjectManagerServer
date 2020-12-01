@@ -1,5 +1,6 @@
 import { SessionToken } from "../Server/Model"
 import Nedb from "nedb";
+import { logInvocation } from "../Shared/MethodDecorators";
 
 export class SessionTokenDBAccess {
 
@@ -10,6 +11,7 @@ export class SessionTokenDBAccess {
         this.nedb.loadDatabase()
     }
 
+    @logInvocation
     public async storeSessionToken(token: SessionToken): Promise<void> {
         return new Promise ((resolve, reject) => {
             this.nedb.insert(token, (err: Error | null) => {
@@ -21,7 +23,8 @@ export class SessionTokenDBAccess {
             })
         })
     }
-
+    
+    @logInvocation
     public async getToken(tokenId: string): Promise<SessionToken | undefined> {
         return new Promise ((resolve, reject) => {
             this.nedb.find({tokenId:tokenId}, (err: Error, docs: any[]) => {
