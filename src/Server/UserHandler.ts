@@ -1,11 +1,12 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { AccessRight, HTTP_CODES, HTTP_METHODS, User } from "../Shared/Model";
+import { countInstances } from "../Shared/ObjectsCounter";
 import { UsersDBAccess } from "../User/UsersDBAccess";
 import { BaseRequestHandler } from "./BaseRequestHandler";
 import { TokenValidator } from "./Model";
 import { Utils } from "./Utils";
 
-
+@countInstances
 export class UsersHandler extends BaseRequestHandler {
 
     private usersDBAccess: UsersDBAccess = new UsersDBAccess()
